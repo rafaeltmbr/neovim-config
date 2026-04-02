@@ -12,11 +12,20 @@ vim.keymap.set("n", "<S-tab>", "<cmd>bp<CR>", { desc = "Go to previous tab" })
 vim.keymap.set("n", "<leader>tt", "<cmd>Neotree toggle current left<CR>")
 vim.keymap.set("n", "<leader>dd", "<cmd>Dashboard<CR>", { desc = "Open dashboard" })
 
+-- Window
+vim.keymap.set("n", "<leader>wv", "<cmd>vsplit<CR>", { desc = "Split window vertically" })
+vim.keymap.set("n", "<leader>wh", "<cmd>split<CR>", { desc = "Split window horizontally" })
+
 -- Yazi maps
 vim.keymap.set("n", "<leader>-", "<cmd>Yazi<CR>", { desc = "Open yazi at the current file" })
 vim.keymap.set("v", "<leader>-", "<cmd>Yazi<CR>", { desc = "Open yazi at the current file" })
 vim.keymap.set("n", "<leader>cw", "<cmd>Yazi cwd<CR>", { desc = "Open yazi at the nvim CWD" })
 vim.keymap.set("v", "<leader>cw", "<cmd>Yazi cwd<CR>", { desc = "Open yazi at the nvim CWD" })
+
+-- Gitsigns
+vim.keymap.set("n", "<leader>gc", "<cmd>Gitsigns preview_hunk_inline<CR>", { desc = "Show git changes inline" })
+vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle git blame for line" })
+vim.keymap.set("n", "<leader>gb", "<cmd>Gitsigns blame<CR>", { desc = "Show git blame for file" })
 
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opt
