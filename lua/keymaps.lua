@@ -9,6 +9,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("i", "jk", "<Esc>", { silent = true, desc = "Exit from insert mode" })
 vim.keymap.set("n", "<tab>", "<cmd>bn<CR>", { desc = "Go to next tab" })
 vim.keymap.set("n", "<S-tab>", "<cmd>bp<CR>", { desc = "Go to previous tab" })
+vim.keymap.set("n", "<C-i>", "<C-i>", { noremap = true }) -- prevent Ctrl + i to TAB remap.
 vim.keymap.set("n", "<leader>tt", "<cmd>Neotree toggle current left<CR>")
 vim.keymap.set("n", "<leader>dd", "<cmd>Dashboard<CR>", { desc = "Open dashboard" })
 
