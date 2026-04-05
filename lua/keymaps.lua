@@ -24,9 +24,43 @@ vim.keymap.set("n", "<leader>cw", "<cmd>Yazi cwd<CR>", { desc = "Open yazi at th
 vim.keymap.set("v", "<leader>cw", "<cmd>Yazi cwd<CR>", { desc = "Open yazi at the nvim CWD" })
 
 -- Gitsigns
-vim.keymap.set("n", "<leader>gc", "<cmd>Gitsigns preview_hunk_inline<CR>", { desc = "Show git changes inline" })
+vim.keymap.set("n", "<leader>gc", "<cmd>Gitsigns preview_hunk_inline<CR>", { desc = "Show [g]it [c]hanges inline" })
 vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle git blame for line" })
-vim.keymap.set("n", "<leader>gb", "<cmd>Gitsigns blame<CR>", { desc = "Show git blame for file" })
+vim.keymap.set("n", "<leader>gd", function()
+	if not vim.wo.diff then
+		return vim.cmd("Gitsigns diffthis")
+	end
+
+	vim.cmd("diffoff!")
+
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		local buf = vim.api.nvim_win_get_buf(win)
+		local name = vim.api.nvim_buf_get_name(buf)
+
+		if name:match("^gitsigns://") then
+			vim.api.nvim_win_close(win, true)
+		end
+	end
+end, { desc = "Toggle [g]it [d]iff side-by-side" })
+
+vim.keymap.set("n", "<leader>gb", function()
+	local blame_win = nil
+
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		local buf = vim.api.nvim_win_get_buf(win)
+
+		if vim.bo[buf].filetype == "gitsigns-blame" then
+			blame_win = win
+			break
+		end
+	end
+
+	if blame_win then
+		vim.api.nvim_win_close(blame_win, true)
+	else
+		vim.cmd("Gitsigns blame")
+	end
+end, { desc = "Toggle [g]it [b]lame for file" })
 
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opt

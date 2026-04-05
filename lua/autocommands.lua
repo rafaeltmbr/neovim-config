@@ -22,3 +22,42 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		end
 	end,
 })
+
+-- Force text wrap on buffers
+local wrap_group = vim.api.nvim_create_augroup("ForceWrap", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "TermOpen" }, {
+	group = wrap_group,
+	callback = function(event)
+		-- vim.schedule defers execution until the plugin (Gitsigns) finishes all its internal setups
+		vim.schedule(function()
+			-- Safety check to ensure the buffer wasn't closed during the micro-delay
+			if not vim.api.nvim_buf_is_valid(event.buf) then
+				return
+			end
+
+			-- Find all windows currently displaying the buffer
+			local wins = vim.fn.win_findbuf(event.buf)
+
+			for _, win in ipairs(wins) do
+				-- Ensure the window is still valid and skip floating windows
+				if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_config(win).relative == "" then
+					vim.wo[win].wrap = true
+					vim.wo[win].linebreak = true
+					vim.wo[win].breakindent = true
+				end
+			end
+		end)
+	end,
+})
+
+-- Force text wrap for Telescope previews
+vim.api.nvim_create_autocmd("User", {
+	pattern = "TelescopePreviewerLoaded",
+	callback = function()
+		-- Aplica na janela de preview que acabou de ser focada internamente
+		vim.cmd("setlocal wrap")
+		vim.cmd("setlocal linebreak")
+		vim.cmd("setlocal number")
+	end,
+})
