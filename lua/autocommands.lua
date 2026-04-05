@@ -51,13 +51,27 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "TermOpen" }, {
 	end,
 })
 
--- Force text wrap for Telescope previews
+-- Force text wrap and line numbers ONLY for Telescope previews
 vim.api.nvim_create_autocmd("User", {
 	pattern = "TelescopePreviewerLoaded",
 	callback = function()
-		-- Aplica na janela de preview que acabou de ser focada internamente
-		vim.cmd("setlocal wrap")
-		vim.cmd("setlocal linebreak")
-		vim.cmd("setlocal number")
+		-- vim.wo applies these settings exclusively to the active window (the preview)
+		vim.wo.wrap = true
+		vim.wo.linebreak = true
+		vim.wo.number = true
+	end,
+})
+
+-- Setup custom git diff colors
+local custom_highlights = vim.api.nvim_create_augroup("CustomHighlights", { clear = true })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+	group = custom_highlights,
+	pattern = "*", -- Applies to any colorscheme you load
+	callback = function()
+		vim.api.nvim_set_hl(0, "DiffAdd", { bg = "#1c2328", fg = "NONE" })
+		vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#291c23", fg = "NONE" })
+		vim.api.nvim_set_hl(0, "DiffChange", { bg = "NONE", fg = "NONE" })
+		vim.api.nvim_set_hl(0, "DiffText", { bg = "#2c4460", fg = "NONE" })
 	end,
 })

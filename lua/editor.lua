@@ -64,7 +64,7 @@ vim.o.splitbelow = true
 --   See `:help lua-options`
 --   and `:help lua-guide-options`
 vim.o.list = true
-vim.opt.listchars = { tab = "| ", trail = "·", nbsp = "␣" }
+vim.opt.listchars = { tab = "│ ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = "split"
@@ -81,5 +81,9 @@ vim.o.scrolloff = 99
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
--- Auto-save
+-- Autosave buffers
 vim.o.autowriteall = true
+
+-- Tune Git diff Aesthetics
+vim.opt.fillchars:append({ diff = " " })
+vim.opt.diffopt:append({ "linematch:60", "iwhite" })

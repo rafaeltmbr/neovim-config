@@ -32,4 +32,31 @@ return {
 		---@diagnostic disable-next-line: missing-fields
 		opts = { signs = false },
 	},
+
+	-- Show vertical lines for tabs that were replaced by spaces
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = {
+			-- 1. Add this exclude block
+			exclude = {
+				filetypes = {
+					"dashboard", -- Ignores dashboard-nvim
+					"help", -- Ignores :help pages
+					"lazy", -- Ignores Lazy plugin manager UI
+					"mason", -- Ignores Mason UI
+					"terminal", -- Ignores built-in terminal buffers
+				},
+			},
+			-- Your existing settings below
+			indent = {
+				char = "│",
+			},
+			scope = {
+				enabled = true,
+				show_start = false,
+				show_end = false,
+			},
+		},
+	},
 }
